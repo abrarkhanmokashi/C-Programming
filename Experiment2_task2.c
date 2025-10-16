@@ -17,6 +17,6 @@ if(i%2!=0)
 sum=sum+1;
 }
 }
-printf("sum of all odd number between %d and %d is:-%d\n",start.end,sum);
+printf("sum of all odd number between %d and %d is:-%d\n",start,end,sum);
 return 0;
 }
