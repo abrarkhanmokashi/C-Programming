@@ -11,7 +11,7 @@ void addEmployee() {
     FILE *fp;
     struct Employee e;
 
-    fp = fopen("employee.dat", "ab");   // open file in append binary mode
+    fp = fopen("employee.txt", "ab");   // open file in append binary mode
     if (fp == NULL) {
         printf("Error opening file!\n");
         return;
@@ -36,7 +36,7 @@ void displayAll() {
     FILE *fp;
     struct Employee e;
 
-    fp = fopen("employee.dat", "rb");   // open file in read binary mode
+    fp = fopen("employee.txt", "rb");   // open file in read binary mode
     if (fp == NULL) {
         printf("No records found (file missing).\n");
         return;
@@ -58,7 +58,7 @@ void searchEmployee() {
     printf("\nEnter Employee ID to search: ");
     scanf("%d", &id);
 
-    fp = fopen("employee.dat", "rb");
+    fp = fopen("employee.txt", "rb");
     if (fp == NULL) {
         printf("No records found (file missing).\n");
         return;
