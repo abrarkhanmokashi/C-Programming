@@ -8,11 +8,11 @@ struct Employee {
 };
 
 void addEmployee() {
-    FILE *fp;
+    FILE *f;
     struct Employee e;
 
-    fp = fopen("employee.txt", "ab");   // open file in append binary mode
-    if (fp == NULL) {
+    f = fopen("employee.txt", "a");
+    if (f == NULL) {
         printf("Error opening file!\n");
         return;
     }
@@ -21,50 +21,51 @@ void addEmployee() {
     scanf("%d", &e.id);
 
     printf("Enter Employee Name: ");
-    scanf("%s", e.name);
+    scanf(" %[^\n]", e.name); 
 
     printf("Enter Employee Salary: ");
     scanf("%f", &e.salary);
 
-    fwrite(&e, sizeof(e), 1, fp);
-    fclose(fp);
+    fprintf(f, "%d %s %.2f\n", e.id, e.name, e.salary);
 
+    fclose(f);
     printf("Employee record added successfully.\n");
 }
 
 void displayAll() {
-    FILE *fp;
+    FILE *f;
     struct Employee e;
 
-    fp = fopen("employee.txt", "rb");   // open file in read binary mode
-    if (fp == NULL) {
-        printf("No records found (file missing).\n");
+    f = fopen("employee.txt", "r");
+    if (f == NULL) {
+        printf("No records found.\n");
         return;
     }
 
     printf("\n--- Employee Records ---\n");
-    while (fread(&e, sizeof(e), 1, fp) == 1) {
+
+    while (fscanf(f, "%d %49s %f", &e.id, e.name, &e.salary) == 3) {
         printf("ID: %d\tName: %s\tSalary: %.2f\n", e.id, e.name, e.salary);
     }
 
-    fclose(fp);
+    fclose(f);
 }
 
 void searchEmployee() {
-    FILE *fp;
+    FILE *f;
     struct Employee e;
     int id, found = 0;
 
     printf("\nEnter Employee ID to search: ");
     scanf("%d", &id);
 
-    fp = fopen("employee.txt", "rb");
-    if (fp == NULL) {
-        printf("No records found (file missing).\n");
+    f = fopen("employee.txt", "r");
+    if (f == NULL) {
+        printf("No records found.\n");
         return;
     }
 
-    while (fread(&e, sizeof(e), 1, fp) == 1) {
+    while (fscanf(f, "%d %49s %f", &e.id, e.name, &e.salary) == 3) {
         if (e.id == id) {
             printf("\nRecord Found:\n");
             printf("ID: %d\nName: %s\nSalary: %.2f\n", e.id, e.name, e.salary);
@@ -77,7 +78,7 @@ void searchEmployee() {
         printf("Employee with ID %d not found.\n", id);
     }
 
-    fclose(fp);
+    fclose(f);
 }
 
 int main() {
@@ -108,8 +109,8 @@ int main() {
             default:
                 printf("Invalid choice. Try again.\n");
         }
+
     } while(choice != 4);
 
     return 0;
 }
-=
